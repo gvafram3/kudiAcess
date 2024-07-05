@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/custom_textfield.dart';
 
-import 'login.dart';
-
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
+
+  final TextEditingController usernameOrPhoneNumberController =
+      TextEditingController();
+
   final TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -26,39 +25,34 @@ class _SignUpPageState extends State<SignUpPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Create an account",
-                style: TextStyle(
-                  color: Color.fromRGBO(243, 156, 18, 3),
-                  fontSize: 25,
+              Center(
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  fit: BoxFit.cover,
+                  // height: 35,
+                  // width: 35,
                 ),
               ),
-              const SizedBox(
-                height: 30,
+              const SizedBox(height: 25),
+              const Text(
+                'Your Financial Assistant',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w600,
+                  color: Color.fromRGBO(243, 156, 18, 3),
+                ),
               ),
+              const SizedBox(height: 45),
               Form(
                 key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomTextField(
-                        controller: emailController,
-                        prefix: const Icon(Icons.email),
-                        hint: "Email"),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomTextField(
-                        controller: usernameController,
+                        controller: usernameOrPhoneNumberController,
                         prefix: const Icon(Icons.person),
-                        hint: "Username"),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    CustomTextField(
-                        controller: phoneNumberController,
-                        prefix: const Icon(Icons.phone),
-                        hint: "Phone Number"),
+                        hint: "Username or phone number"),
                     const SizedBox(
                       height: 20,
                     ),
@@ -70,17 +64,16 @@ class _SignUpPageState extends State<SignUpPage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    CustomTextField(
-                        isPass: true,
-                        controller: passwordController,
-                        prefix: const Icon(Icons.lock),
-                        hint: "Confirm Password"),
-                    const SizedBox(
-                      height: 25,
+                    Padding(
+                      padding: const EdgeInsets.only(right: 18.0),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: const Text('Forgot Password?'),
+                      ),
                     ),
                     CustomButton(
                       onPressed: () {},
-                      txt: "Sign Up",
+                      txt: "Sign in",
                       width: double.infinity,
                       color: const Color.fromRGBO(243, 156, 18, 3),
                     ),
@@ -90,16 +83,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const Text(
                           'Already Have An Account?',
                         ),
-                        TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
-                                ),
-                              );
-                            },
-                            child: const Text("Login"))
+                        TextButton(onPressed: () {}, child: const Text("Login"))
                       ],
                     )
                   ],

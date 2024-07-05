@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
+import '../utils/commons/custom_button.dart';
 import 'pick_colour_tabs/grid_color_picker.dart';
 import 'pick_colour_tabs/sliders_color_picker.dart';
 import 'pick_colour_tabs/spectrum_color_picker.dart';
-import 'pick_colour_tabs/sliders_color_picker.dart';
+import 'sign_up.dart';
+// import 'pick_colour_tabs/sliders_color_picker.dart';
 
 class PickColorScreen extends StatefulWidget {
   const PickColorScreen({super.key});
@@ -36,18 +38,23 @@ class _PickColorScreenState extends State<PickColorScreen> {
                     children: [
                       const Text(
                         'Select colors for App',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            'Next',
-                            style: TextStyle(color: Colors.black),
-                          ),
+                        style: TextStyle(
+                          fontSize: 26,
+                          color: Color.fromRGBO(243, 156, 18, 3),
                         ),
                       ),
+                      CustomButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const SignUpPage(),
+                              ),
+                            );
+                          },
+                          txt: "Next",
+                          width: 50,
+                          color: Colors.grey),
                     ],
                   ),
                 ),
@@ -56,7 +63,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Preferred Color',
+                      'Preferred Colorrrr',
                       style: TextStyle(fontSize: 24),
                     ),
                     const SizedBox(width: 12),

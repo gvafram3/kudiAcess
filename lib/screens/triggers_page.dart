@@ -1,4 +1,4 @@
-import 'package:dotted_border/dotted_border.dart';
+// import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:kudiaccess/screens/trigger_colors.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
@@ -20,7 +20,7 @@ class _TriggerPageState extends State<TriggerPage> {
   ];
   String dropdownvalue = 'Item 1';
 
-  final TextEditingController _controller = TextEditingController();
+  // final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {

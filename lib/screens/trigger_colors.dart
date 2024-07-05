@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/sign_up.dart';
+// import 'package:kudiaccess/screens/sign_up.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 
 import 'pick_colour.dart';
