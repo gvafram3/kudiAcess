@@ -32,7 +32,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16.0, 12, 16.0, 0),
+                  padding: const EdgeInsets.fromLTRB(16.0, 12, 12.0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -53,7 +53,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
                             );
                           },
                           txt: "Next",
-                          width: 50,
+                          width: 80,
                           color: Colors.grey),
                     ],
                   ),
@@ -63,7 +63,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Preferred Colorrrr',
+                      'Preferred Color',
                       style: TextStyle(fontSize: 24),
                     ),
                     const SizedBox(width: 12),
