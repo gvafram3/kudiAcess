@@ -29,6 +29,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             borderSide: BorderSide(color: Colors.lightGreen)),
         hintText: widget.hint,
         prefixIcon: widget.prefix,
+        prefixIconColor: Colors.lightGreen,
         suffixIcon: widget.isPass
             ? IconButton(
                 icon: Icon(

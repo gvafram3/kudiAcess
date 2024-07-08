@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/sign_up.dart';
+// import 'package:kudiaccess/screens/sign_up.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
+
+import 'pick_colour.dart';
 
 class ColorTriggerPage extends StatefulWidget {
   const ColorTriggerPage({super.key});
@@ -113,8 +115,10 @@ class _ColorTriggerPageState extends State<ColorTriggerPage> {
       ),
       floatingActionButton: CustomButton(
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const SignUpPage()));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const PickColorScreen()));
           },
           txt: "Next",
           width: 100,

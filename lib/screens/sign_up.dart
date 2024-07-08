@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/custom_textfield.dart';
 
+import 'login.dart';
+
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
   @override
@@ -26,7 +28,10 @@ class _SignUpPageState extends State<SignUpPage> {
             children: [
               const Text(
                 "Create an account",
-                style: TextStyle(color: Colors.lightGreen, fontSize: 25),
+                style: TextStyle(
+                  color: Color.fromRGBO(243, 156, 18, 3),
+                  fontSize: 25,
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -74,17 +79,31 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 25,
                     ),
                     CustomButton(
-                        onPressed: () {},
-                        txt: "Sign Up",
-                        width: double.infinity,
-                        color: Colors.lightGreen),
+                      onPressed: () {},
+                      txt: "Sign Up",
+                      width: double.infinity,
+                      color: const Color.fromRGBO(243, 156, 18, 3),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const Text(
                           'Already Have An Account?',
                         ),
-                        TextButton(onPressed: () {}, child: const Text("Login"))
+                        TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(color: Colors.lightGreen),
+                          ),
+                        ),
                       ],
                     )
                   ],
