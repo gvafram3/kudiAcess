@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/login_page.dart';
+
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/custom_textfield.dart';
+
+import 'login.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -26,8 +28,11 @@ class _SignUpPageState extends State<SignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                "Create An Account",
-                style: TextStyle(color: Colors.lightGreen, fontSize: 25),
+                "Create an account",
+                style: TextStyle(
+                  color: Color.fromRGBO(243, 156, 18, 3),
+                  fontSize: 25,
+                ),
               ),
               const SizedBox(
                 height: 30,
@@ -75,12 +80,10 @@ class _SignUpPageState extends State<SignUpPage> {
                       height: 25,
                     ),
                     CustomButton(
-                        onPressed: () {},
-                        txt: "Sign Up",
-                        width: double.infinity,
-                        color: Colors.lightGreen),
-                    const SizedBox(
-                      height: 10,
+                      onPressed: () {},
+                      txt: "Sign Up",
+                      width: double.infinity,
+                      color: const Color.fromRGBO(243, 156, 18, 3),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -92,19 +95,19 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                         ),
                         TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const LoginPage()));
-                            },
-                            child: const Text(
-                              "Login",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
                               ),
-                            ))
+                            );
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(color: Colors.lightGreen),
+                          ),
+                        ),
                       ],
                     )
                   ],
