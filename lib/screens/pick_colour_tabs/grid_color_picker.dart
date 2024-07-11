@@ -13,29 +13,32 @@ class GridColorPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 5,
-        mainAxisSpacing: 4.0,
-        crossAxisSpacing: 4.0,
-      ),
-      itemCount: gridColors.length,
-      itemBuilder: (context, index) {
-        final color = gridColors[index];
-        return GestureDetector(
-          onTap: () => onColorChanged(color),
-          child: Container(
-            decoration: BoxDecoration(
-              color: color,
-              border: Border.all(
-                color:
-                    currentColor == color ? Colors.black : Colors.transparent,
-                width: 2.0,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 5,
+          mainAxisSpacing: 4.0,
+          crossAxisSpacing: 4.0,
+        ),
+        itemCount: gridColors.length,
+        itemBuilder: (context, index) {
+          final color = gridColors[index];
+          return GestureDetector(
+            onTap: () => onColorChanged(color),
+            child: Container(
+              decoration: BoxDecoration(
+                color: color,
+                border: Border.all(
+                  color:
+                      currentColor == color ? Colors.black : Colors.transparent,
+                  width: 2.0,
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

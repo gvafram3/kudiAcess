@@ -40,7 +40,12 @@ class _OTPPageState extends State<OTPPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          title: const Text(
+            "Phone Number Verification",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.transparent),
       body: GradientBackground(
         mainContent: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

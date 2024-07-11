@@ -56,7 +56,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(backgroundColor: Colors.transparent),
+      appBar: AppBar(
+          title: const Text(
+            "Reset Password",
+            style: TextStyle(color: Colors.white),
+          ),
+          backgroundColor: Colors.transparent),
       body: GradientBackground(
         mainContent: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),

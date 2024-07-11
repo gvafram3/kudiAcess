@@ -19,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -100,7 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             );
                           },
                           child: const Text(
-                            'Login',
+                            'Sign in',
                             style: TextStyle(color: Colors.lightGreen),
                           ),
                         ),
