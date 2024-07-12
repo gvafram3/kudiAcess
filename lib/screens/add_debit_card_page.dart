@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
-import 'setup_page.dart';
+import 'add_mobile_money_info.dart';
 
 class AddDebitCardInfoPage extends StatefulWidget {
   const AddDebitCardInfoPage({super.key});
@@ -94,21 +95,14 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                     style: TextStyle(color: Colors.lightGreen),
                   ),
                   CustomButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
-                        ),
-                      );
-                    },
+                    onPressed: () {},
                     txt: "Save",
                     width: 120,
                     color: const Color.fromRGBO(243, 156, 18, 3),
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 36),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -117,7 +111,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
+                          builder: (context) => const AddMobileMoneyInfoPage(),
                         ),
                       );
                     },
@@ -130,7 +124,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
+                          builder: (context) => const AddMobileMoneyInfoPage(),
                         ),
                       );
                     },

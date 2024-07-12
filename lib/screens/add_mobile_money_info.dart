@@ -4,7 +4,7 @@ import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
 import 'setup_budget.dart';
-import 'setup_page.dart';
+// import 'setup_page.dart';
 // import 'sign_up.dart';
 
 class AddMobileMoneyInfoPage extends StatefulWidget {
@@ -70,19 +70,19 @@ class _AddMobileMoneyInfoPageState extends State<AddMobileMoneyInfoPage> {
                         controller: usernameOrPhoneNumberController,
                         hint: "Mobile Money Provider"),
                     const SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     CustomTextField2(
                         controller: passwordController, hint: "Phone Number"),
                     const SizedBox(
-                      height: 15,
+                      height: 10,
                     ),
                     CustomTextField2(
                         controller: passwordController, hint: "Account Name"),
                   ],
                 ),
               ),
-              const SizedBox(height: 80),
+              const SizedBox(height: 14),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
