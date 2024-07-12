@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/setup_page.dart';
 // import 'package:kudiaccess/screens/forgot_password.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
-import 'setup_complete.dart';
-
+import 'setup_budget.dart';
+import 'setup_page.dart';
 // import 'sign_up.dart';
 
-class SetupBudgetPage extends StatefulWidget {
-  const SetupBudgetPage({super.key});
+class AddMobileMoneyInfoPage extends StatefulWidget {
+  const AddMobileMoneyInfoPage({super.key});
   @override
-  State<SetupBudgetPage> createState() => _SetupBudgetPageState();
+  State<AddMobileMoneyInfoPage> createState() => _AddMobileMoneyInfoPageState();
 }
 
-class _SetupBudgetPageState extends State<SetupBudgetPage> {
+class _AddMobileMoneyInfoPageState extends State<AddMobileMoneyInfoPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController usernameOrPhoneNumberController =
@@ -32,7 +31,7 @@ class _SetupBudgetPageState extends State<SetupBudgetPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 56),
+              const SizedBox(height: 16),
               Center(
                 child: Image.asset(
                   'assets/images/logo.png',
@@ -61,7 +60,7 @@ class _SetupBudgetPageState extends State<SetupBudgetPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Set Up Budget',
+                      'Add Mobile Money Information',
                       textAlign: TextAlign.start,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -69,78 +68,65 @@ class _SetupBudgetPageState extends State<SetupBudgetPage> {
                     const SizedBox(height: 16),
                     CustomTextField2(
                         controller: usernameOrPhoneNumberController,
-                        hint: "Monthly income"),
+                        hint: "Mobile Money Provider"),
                     const SizedBox(
-                      height: 14,
+                      height: 15,
                     ),
-                    const Text(
-                      'Expense Categories',
-                      textAlign: TextAlign.start,
-                      style:
-                          TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
-                    ),
+                    CustomTextField2(
+                        controller: passwordController, hint: "Phone Number"),
                     const SizedBox(
-                      height: 14,
+                      height: 15,
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextField2(
-                            controller: TextEditingController(),
-                            hint: 'Category Name',
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: CustomTextField2(
-                            controller: TextEditingController(),
-                            hint: 'Monthly Budget (GH¢0.00)',
-                          ),
-                        ),
-                      ],
-                    )
+                    CustomTextField2(
+                        controller: passwordController, hint: "Account Name"),
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 80),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.lightGreen,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      height: 45,
-                      width: 180,
-                      child: const Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.add_box_outlined, color: Colors.white),
-                          SizedBox(width: 6),
-                          Text(
-                            "Add Category",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                        ],
-                      )),
-                    ),
+                  const Text(
+                    'Click here to add new card details',
+                    style: TextStyle(color: Colors.lightGreen),
+                  ),
+                  CustomButton(
+                    onPressed: () {},
+                    txt: "Save",
+                    width: 120,
+                    color: const Color.fromRGBO(243, 156, 18, 3),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CustomButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SetupBudgetPage(),
+                        ),
+                      );
+                    },
+                    txt: "Skip",
+                    width: 120,
+                    color: const Color.fromRGBO(243, 156, 18, 3),
                   ),
                   CustomButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SetupCompletePage(),
+                          builder: (context) => const SetupBudgetPage(),
                         ),
                       );
                     },
-                    txt: "Save",
+                    txt: "Next",
                     width: 120,
-                    color: const Color.fromRGBO(243, 156, 18, 3),
+                    color: Colors.lightGreen,
                   ),
                 ],
               ),

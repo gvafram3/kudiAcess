@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/forgot_password.dart';
+// import 'package:kudiaccess/screens/forgot_password.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
+import 'add_mobile_money_info.dart';
 import 'setup_page.dart';
-import 'sign_up.dart';
+// import 'sign_up.dart';
 
 class AddDebitCardInfoPage extends StatefulWidget {
   const AddDebitCardInfoPage({super.key});
@@ -97,12 +98,12 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                   ),
                   CustomButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
-                        ),
-                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const SetupPage(),
+                      //   ),
+                      // );
                     },
                     txt: "Save",
                     width: 120,
@@ -119,7 +120,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
+                          builder: (context) => const AddMobileMoneyInfoPage(),
                         ),
                       );
                     },
@@ -132,7 +133,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const SetupPage(),
+                          builder: (context) => const AddMobileMoneyInfoPage(),
                         ),
                       );
                     },
