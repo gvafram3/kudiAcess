@@ -46,16 +46,19 @@ class _SplashScreenState extends State<SplashScreen> {
           ],
         ),
       ),
-      floatingActionButton: CustomButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const MedicalHistory()));
-          },
-          txt: "Next",
-          width: 100,
-          color: Colors.green),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(left: 30),
+        child: CustomButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const MedicalHistory()));
+            },
+            txt: "Get Started",
+            width: double.infinity,
+            color: Colors.lightGreen),
+      ),
     );
   }
 }
