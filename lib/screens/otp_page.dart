@@ -4,13 +4,13 @@ import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
 class OTPPage extends StatefulWidget {
-  const OTPPage({Key? key}) : super(key: key);
+  const OTPPage({super.key});
 
   @override
-  _OTPPageState createState() => _OTPPageState();
+  OTPPageState createState() => OTPPageState();
 }
 
-class _OTPPageState extends State<OTPPage> {
+class OTPPageState extends State<OTPPage> {
   final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   final List<TextEditingController> _controllers =
       List.generate(6, (_) => TextEditingController());

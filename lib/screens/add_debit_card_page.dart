@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/forgot_password.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
 import 'setup_page.dart';
-import 'sign_up.dart';
 
 class AddDebitCardInfoPage extends StatefulWidget {
   const AddDebitCardInfoPage({super.key});
