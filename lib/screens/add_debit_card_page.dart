@@ -4,8 +4,6 @@ import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
 import 'add_mobile_money_info.dart';
-import 'setup_page.dart';
-
 
 class AddDebitCardInfoPage extends StatefulWidget {
   const AddDebitCardInfoPage({super.key});

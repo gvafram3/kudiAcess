@@ -14,8 +14,6 @@ class SetupCompletePage extends StatefulWidget {
 }
 
 class _SetupCompletePageState extends State<SetupCompletePage> {
-  final _formKey = GlobalKey<FormState>();
-
   final TextEditingController usernameOrPhoneNumberController =
       TextEditingController();
 

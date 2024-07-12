@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:kudiaccess/screens/setup_page.dart';
+import 'package:kudiaccess/screens/setup_complete_page.dart';
 
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
-
-
-
-import 'setup_page.dart';
-
 
 class SetupBudgetPage extends StatefulWidget {
   const SetupBudgetPage({super.key});
@@ -137,9 +131,7 @@ class _SetupBudgetPageState extends State<SetupBudgetPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-
                           builder: (context) => const SetupCompletePage(),
-
                         ),
                       );
                     },
