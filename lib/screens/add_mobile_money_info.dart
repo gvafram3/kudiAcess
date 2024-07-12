@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-
+// import 'package:kudiaccess/screens/forgot_password.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
-import 'add_mobile_money_info.dart';
+import 'setup_budget.dart';
 import 'setup_page.dart';
+// import 'sign_up.dart';
 
-
-class AddDebitCardInfoPage extends StatefulWidget {
-  const AddDebitCardInfoPage({super.key});
+class AddMobileMoneyInfoPage extends StatefulWidget {
+  const AddMobileMoneyInfoPage({super.key});
   @override
-  State<AddDebitCardInfoPage> createState() => _LoginPageState();
+  State<AddMobileMoneyInfoPage> createState() => _AddMobileMoneyInfoPageState();
 }
 
-class _LoginPageState extends State<AddDebitCardInfoPage> {
+class _AddMobileMoneyInfoPageState extends State<AddMobileMoneyInfoPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController usernameOrPhoneNumberController =
@@ -60,7 +60,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      'Add Debit/Credit Card Information',
+                      'Add Mobile Money Information',
                       textAlign: TextAlign.start,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
@@ -68,23 +68,17 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                     const SizedBox(height: 16),
                     CustomTextField2(
                         controller: usernameOrPhoneNumberController,
-                        hint: "Cardholder name"),
+                        hint: "Mobile Money Provider"),
                     const SizedBox(
                       height: 10,
                     ),
                     CustomTextField2(
-                        controller: passwordController,
-                        hint: "Card No.: 123***5437"),
+                        controller: passwordController, hint: "Phone Number"),
                     const SizedBox(
                       height: 10,
                     ),
                     CustomTextField2(
-                        controller: passwordController, hint: "MM/YY"),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomTextField2(
-                        controller: passwordController, hint: "CVV"),
+                        controller: passwordController, hint: "Account Name"),
                   ],
                 ),
               ),
@@ -104,7 +98,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 36),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -113,7 +107,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AddMobileMoneyInfoPage(),
+                          builder: (context) => const SetupBudgetPage(),
                         ),
                       );
                     },
@@ -126,7 +120,7 @@ class _LoginPageState extends State<AddDebitCardInfoPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AddMobileMoneyInfoPage(),
+                          builder: (context) => const SetupBudgetPage(),
                         ),
                       );
                     },

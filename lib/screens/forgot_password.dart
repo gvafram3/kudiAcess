@@ -21,7 +21,12 @@ class _LoginPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBodyBehindAppBar: true,
-        appBar: AppBar(backgroundColor: Colors.transparent),
+        appBar: AppBar(
+            title: const Text(
+              "Forgot Password",
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: Colors.transparent),
         body: GradientBackground(
           mainContent: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

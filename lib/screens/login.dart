@@ -23,115 +23,120 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: GradientBackground(
-      mainContent: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Image.asset(
-                'assets/images/logo.png',
-                fit: BoxFit.cover,
-              ),
-            ),
-            const SizedBox(height: 25),
-            const Row(
-              children: [
-                Spacer(),
-                Text(
-                  'Your Financial Assistant',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color.fromRGBO(243, 156, 18, 3),
-                  ),
-                ),
-                Spacer(),
-              ],
-            ),
-            const SizedBox(height: 45),
-            Form(
-              key: _formKey,
+          mainContent: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomTextField(
-                      controller: usernameOrPhoneNumberController,
-                      prefix: const Icon(Icons.person),
-                      hint: "Username or phone number"),
-                  const SizedBox(
-                    height: 20,
+                  const SizedBox(height: 68),
+                  Center(
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  CustomTextField(
-                      isPass: true,
-                      controller: passwordController,
-                      prefix: const Icon(Icons.lock),
-                      hint: "Password"),
+                  const SizedBox(height: 25),
+                  const Row(
+                    children: [
+                      Spacer(),
+                      Text(
+                        'Your Financial Assistant',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Color.fromRGBO(243, 156, 18, 3),
+                        ),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  const SizedBox(height: 45),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomTextField(
+                            controller: usernameOrPhoneNumberController,
+                            prefix: const Icon(Icons.person),
+                            hint: "Username or phone number"),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        CustomTextField(
+                            isPass: true,
+                            controller: passwordController,
+                            prefix: const Icon(Icons.lock),
+                            hint: "Password"),
+                      ],
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      const Spacer(),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const ForgotPasswordPage()));
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            color: Colors.lightGreen,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SetupPage(),
+                        ),
+                      );
+                    },
+                    txt: "Sign in",
+                    width: double.infinity,
+                    color: const Color.fromRGBO(243, 156, 18, 3),
+                  ),
+                  const SizedBox(height: 18),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Don\'t have an account yet? ',
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SignUpPage(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "Sign up",
+                          style: TextStyle(
+                            color: Colors.lightGreen,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
-            Row(
-              children: [
-                const Spacer(),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordPage()));
-                  },
-                  child: const Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      color: Colors.lightGreen,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            CustomButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const SetupPage(),
-                  ),
-                );
-              },
-              txt: "Sign in",
-              width: double.infinity,
-              color: const Color.fromRGBO(243, 156, 18, 3),
-            ),
-            const SizedBox(height: 14),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Don\'t have an account yet? ',
-                ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUpPage(),
-                      ),
-                    );
-                  },
-                  child: const Text(
-                    "Sign up",
-                    style: TextStyle(
-                      color: Colors.lightGreen,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }
