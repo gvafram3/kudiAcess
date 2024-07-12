@@ -1,31 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 
-class HomeScreen extends StatefulWidget {
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/widgets.dart';
+import 'package:kudiaccess/screens/notifications.dart';
+import 'package:kudiaccess/screens/profile.dart';
+import 'package:kudiaccess/screens/settings.dart';
+
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final PageController _pageController = PageController(viewportFraction: 0.75);
-  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> cardList = [
-      BalanceCard(
+      const BalanceCard(
         color: Colors.blue,
         balance: '₵6,420.00',
         type: 'Debit',
       ),
-      BalanceCard(
+      const BalanceCard(
         color: Colors.red,
         balance: '₵4,420.00',
         type: 'Credit',
       ),
-      BalanceCard(
+      const BalanceCard(
         color: Colors.green,
         balance: '₵8,200.00',
         type: 'Savings',
@@ -46,12 +43,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       'Welcome',
-                      style: TextStyle(fontSize: 18, color: Colors.lightGreen),
+                      style: TextStyle(fontSize: 18, color: Colors.blue),
                     ),
                     Text(
                       'Elizabeth Nunito',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -59,83 +58,95 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.settings),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const SettingsScreen(),
+                            ));
+                      },
                     ),
+                    const SizedBox(width: 1),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const NotificationsScreen(),
+                            ));
+                      },
                       icon: const Icon(Icons.notification_add),
                     ),
-                    const CircleAvatar(
-                      backgroundColor: Colors.black,
+                    const SizedBox(width: 1),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: ((context) => const ProfileScreen()),
+                          ),
+                        );
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white54,
+                        child: Icon(
+                          Icons.person_2_outlined,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ],
             ),
             const SizedBox(height: 20),
-            // Horizontal scrollable list of Balance Cards
-            SizedBox(
-              height: 180,
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: cardList.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  return AnimatedBuilder(
-                    animation: _pageController,
-                    builder: (context, child) {
-                      double value = 1.0;
-                      if (_pageController.position.haveDimensions) {
-                        value = _pageController.page! - index;
-                        value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
-                      }
-                      return Center(
-                        child: SizedBox(
-                          height: Curves.easeOut.transform(value) * 180,
-                          width: Curves.easeOut.transform(value) * 300,
-                          child: child,
-                        ),
-                      );
-                    },
-                    child: cardList[index],
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 10),
-            // Dots indicator
-            Center(
-              child: DotsIndicator(
-                dotsCount: cardList.length,
-                // position: , // Convert to double here
-                decorator: DotsDecorator(
-                  activeColor: Colors.blue,
-                  size: const Size.square(9.0),
-                  activeSize: const Size(18.0, 9.0),
-                  activeShape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5.0),
+            CarouselSlider.builder(
+              itemCount: cardList.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return AnimatedContainer(
+                  width: 2000,
+                  duration: const Duration(milliseconds: 300),
+                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                  decoration: BoxDecoration(
+                    color: index == realIndex ? Colors.white : Colors.grey[300],
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ),
+                  child: cardList[index],
+                );
+              },
+              options: CarouselOptions(
+                height: 180,
+                enlargeCenterPage: true,
+                autoPlay: true,
+                aspectRatio: 16 / 9,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enableInfiniteScroll: true,
+                viewportFraction: 0.75,
               ),
             ),
             const SizedBox(height: 20),
             // Budget Section
             Container(
+              width: double.infinity,
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: Colors.grey),
               ),
-              child: const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Budget for October'),
-                  SizedBox(height: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Budget for October',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text('Cash Available'),
+                    ],
+                  ),
                   Text(
                     '₵2,478',
                     style: TextStyle(
@@ -143,8 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5),
-                  Text('Cash Available'),
                 ],
               ),
             ),
@@ -197,39 +206,79 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             // Transaction List
-            const Column(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.cloud),
-                  title: Text('Dropbox Plan'),
-                  subtitle: Text('Subscription'),
-                  trailing: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '-₵144.00',
-                        style: TextStyle(color: Colors.red),
+
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey),
+              ),
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      Text('18 June 2024'),
-                    ],
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.work),
-                  title: Text('Freelance Work'),
-                  subtitle: Text('Income'),
-                  trailing: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        '+₵421.00',
-                        style: TextStyle(color: Colors.green),
+                      child: IconButton(
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        icon: const Icon(
+                          Icons.cloud,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {},
                       ),
-                      Text('18 June 2024'),
-                    ],
+                    ),
+                    title: const Text('Dropbox Plan'),
+                    subtitle: const Text('Subscription'),
+                    trailing: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '-₵144.00',
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.w600),
+                        ),
+                        Text('18 June 2024'),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const Divider(color: Colors.grey),
+                  ListTile(
+                    leading: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: IconButton(
+                        highlightColor: Colors.transparent,
+                        hoverColor: Colors.transparent,
+                        icon: const Icon(
+                          Icons.work,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {},
+                      ),
+                    ),
+                    title: const Text('Freelance Work'),
+                    subtitle: const Text('Income'),
+                    trailing: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '+₵421.00',
+                          style: TextStyle(
+                              color: Colors.green, fontWeight: FontWeight.w600),
+                        ),
+                        Text('18 June 2024'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -243,7 +292,8 @@ class BalanceCard extends StatelessWidget {
   final String balance;
   final String type;
 
-  BalanceCard({
+  const BalanceCard({
+    super.key,
     required this.color,
     required this.balance,
     required this.type,
@@ -252,34 +302,53 @@ class BalanceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
+        image: const DecorationImage(
+          fit: BoxFit.fill,
+          image: AssetImage('assets/images/card_vector.png'),
+        ),
         color: color,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Balance',
-            style: TextStyle(color: Colors.white),
-          ),
-          SizedBox(height: 10),
-          Text(
-            balance,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(8.0, 14.0, 8.0, 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Balance',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600),
+                ),
+                Spacer(),
+                Icon(
+                  Icons.more_horiz,
+                  color: Colors.white,
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 5),
-          Text(
-            type,
-            style: TextStyle(color: Colors.white),
-          ),
-        ],
+            // const SizedBox(height: 10),
+            Text(
+              type,
+              style: const TextStyle(color: Colors.white),
+            ),
+            const Spacer(),
+            Text(
+              balance,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
