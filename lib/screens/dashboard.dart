@@ -18,9 +18,9 @@ class DashboardPageState extends State<DashboardPage> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const HistoryScreen(),
-    const Payment(),
-    const Budget(),
-    const Resources(),
+    const PaymentsScreen(),
+    const BudgetScreen(),
+    const ResourcesScreen(),
   ];
 
   @override

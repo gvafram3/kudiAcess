@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kudiaccess/screens/dashboard.dart';
+import 'package:kudiaccess/screens/dashboard_tabs/payment.dart';
+import 'package:kudiaccess/screens/splashscreen.dart';
 
 void main() {
   runApp(const MyApp());
