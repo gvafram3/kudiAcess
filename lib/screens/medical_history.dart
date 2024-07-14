@@ -21,10 +21,10 @@ class _MedicalHistoryState extends State<MedicalHistory> {
     'Item 5',
   ];
   String dropdownvalue = 'Item 1';
-
+  bool isSaved = false;
   final TextEditingController _controller = TextEditingController();
   final FocusNode _focusNode = FocusNode();
-
+  String medicalCondition = "";
   OverlayEntry? _overlayEntry;
   bool _isDropdownOpened = false;
   String? _selectedItem;
@@ -61,11 +61,19 @@ class _MedicalHistoryState extends State<MedicalHistory> {
 
   Future<void> _saveData() async {
     if (_allergiesController.text.isNotEmpty &&
-        _medicalConditionController.text.isNotEmpty &&
-        _physicianNameController.text.isNotEmpty) {
+        _physicianNameController.text.isNotEmpty &&
+        _medicationsController.text.isNotEmpty) {
+      if (_medicalConditionController.text != "Other") {
+        setState(() {
+          medicalCondition = _medicalConditionController.text;
+        });
+      } else {
+        setState(() {
+          medicalCondition = otherCondtionController.text;
+        });
+      }
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(
-          'medicalCondition', _medicalConditionController.text);
+      await prefs.setString('medicalCondition', medicalCondition);
       await prefs.setString('medications', _medicationsController.text);
       await prefs.setString('allergies', _allergiesController.text);
       await prefs.setString('physicianName', _physicianNameController.text);
@@ -76,9 +84,15 @@ class _MedicalHistoryState extends State<MedicalHistory> {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data saved successfully')));
+      setState(() {
+        isSaved = true;
+      });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Data saved successfully')));
+      setState(() {
+        isSaved = false;
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Please fill all field')));
     }
   }
 
@@ -201,6 +215,8 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                               setState(() {
                                 _selectedItem = newValue;
                                 state.didChange(newValue);
+                                _medicalConditionController.text =
+                                    _selectedItem!;
                               });
                             },
                             items: _currencies.map((String value) {
@@ -219,13 +235,18 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                   height: 10,
                 ),
                 if (_selectedItem == "Other") ...[
-                  const Text("Enter medical condition"),
+                  const Text(
+                    "Enter medical condition",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(
                     height: 5,
                   ),
-                  TextField(
+                  TextFormField(
+                    onChanged: (value) {},
+                    controller: otherCondtionController,
                     decoration: InputDecoration(
-                        hintText: "Other",
+                        hintText: " ",
                         contentPadding: const EdgeInsets.all(5),
                         errorStyle: const TextStyle(
                             color: Colors.redAccent, fontSize: 16.0),
@@ -244,7 +265,8 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                 const SizedBox(
                   height: 5,
                 ),
-                TextField(
+                TextFormField(
+                  controller: _medicationsController,
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(5),
                       errorStyle: const TextStyle(
@@ -263,7 +285,8 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                 const SizedBox(
                   height: 5,
                 ),
-                TextField(
+                TextFormField(
+                  controller: _allergiesController,
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(5),
                       errorStyle: const TextStyle(
@@ -282,7 +305,8 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                 const SizedBox(
                   height: 5,
                 ),
-                TextField(
+                TextFormField(
+                  controller: _physicianNameController,
                   decoration: InputDecoration(
                       contentPadding: const EdgeInsets.all(5),
                       errorStyle: const TextStyle(
@@ -347,14 +371,18 @@ class _MedicalHistoryState extends State<MedicalHistory> {
           ),
         ),
       ),
-      floatingActionButton: CustomButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const TriggerPage()));
-          },
-          txt: "Next",
-          width: 100,
-          color: Colors.grey),
+      floatingActionButton: isSaved
+          ? CustomButton(
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TriggerPage()));
+              },
+              txt: "Next",
+              width: 100,
+              color: Colors.green)
+          : null,
     );
   }
 }

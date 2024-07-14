@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kudiaccess/screens/setup_complete_page.dart';
+// import 'package:kudiaccess/screens/setup_complete_page.dart';
 
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
+
+import 'setup_complete.dart';
 
 class SetupBudgetPage extends StatefulWidget {
   const SetupBudgetPage({super.key});
@@ -98,8 +100,7 @@ class _SetupBudgetPageState extends State<SetupBudgetPage> {
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
-              const SizedBox(height: 16),
+              const SizedBox(height: 50),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

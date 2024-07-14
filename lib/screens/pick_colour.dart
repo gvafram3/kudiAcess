@@ -27,6 +27,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
+        backgroundColor: currentColor,
         body: SafeArea(
           child: Center(
             child: Column(

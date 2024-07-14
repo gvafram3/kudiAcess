@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kudiaccess/screens/dashboard.dart';
+import 'package:kudiaccess/screens/dashboard_tabs/payment.dart';
 import 'package:kudiaccess/screens/splashscreen.dart';
 
 void main() {
@@ -17,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      home: const DashboardPage(),
     );
   }
 }
