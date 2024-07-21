@@ -34,7 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     fetchUserData();
     dobController = TextEditingController(text: '');
     regionController = TextEditingController(text: 'region');
-    passwordController = TextEditingController(text: '**************');
+    passwordController = TextEditingController(text: '***********');
     profileImageUrl = '';
   }
 
