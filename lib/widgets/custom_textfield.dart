@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField(
-      {super.key,
-      required this.controller,
-      required this.prefix,
-      this.isPass = false,
-      required this.hint});
+  const CustomTextField({
+    super.key,
+    required this.controller,
+    required this.prefix,
+    this.isPass = false,
+    required this.hint,
+  });
   final TextEditingController controller;
   final bool isPass;
   final String hint;
