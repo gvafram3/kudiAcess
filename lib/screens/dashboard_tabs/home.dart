@@ -1,11 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kudiaccess/models/user_model.dart';
+import 'package:kudiaccess/providers/user_provider.dart';
 import 'package:kudiaccess/screens/notifications.dart';
 import 'package:kudiaccess/screens/profile.dart';
 import 'package:kudiaccess/screens/settings.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends ConsumerState<HomeScreen> {
+  UserModel? user;
+
+  Future<void> loadUser() async {
+    final loadedUser = await ref.read(userProvider.notifier).loadUser();
+    setState(() {
+      user = loadedUser;
+    });
+    if (user != null) {
+      print(user!.email);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,20 +80,29 @@ class HomeScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Column(
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Welcome',
               style: TextStyle(fontSize: 18, color: Colors.blue),
             ),
-            Text(
-              'Elizabeth Nunito',
-              style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold),
-            ),
+            if (user != null)
+              Text(
+                user!.username,
+                style: const TextStyle(
+                    fontSize: 22,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold),
+              )
+            else
+              const Text(
+                'Loading...',
+                style: TextStyle(
+                    fontSize: 22,
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold),
+              ),
           ],
         ),
         Row(
