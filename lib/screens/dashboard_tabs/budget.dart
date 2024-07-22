@@ -132,7 +132,7 @@ class BudgetCard extends StatelessWidget {
               ),
               SizedBox(height: 8),
               Text(
-                '₦2,478',
+                '₵2,478',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ],
@@ -195,7 +195,7 @@ class BudgetListItem extends StatelessWidget {
           const Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('₦54,417.80',
+              Text('₵54,417.80',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               Text('In Cash', style: TextStyle(color: Colors.blue)),
             ],
