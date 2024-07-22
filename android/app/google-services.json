@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "59076233564",
+    "project_id": "kudiaccess-ceb19",
+    "storage_bucket": "kudiaccess-ceb19.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59076233564:android:0f646521db0dd044f09999",
+        "android_client_info": {
+          "package_name": "com.example.kudiaccess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvaRsoRseMpAhRjjmIKM4ePxWRyqGE9Yk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

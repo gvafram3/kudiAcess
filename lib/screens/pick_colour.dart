@@ -1,33 +1,24 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kudiaccess/providers/color_providers.dart';
 import '../utils/commons/custom_button.dart';
 import 'pick_colour_tabs/grid_color_picker.dart';
 import 'pick_colour_tabs/sliders_color_picker.dart';
 import 'pick_colour_tabs/spectrum_color_picker.dart';
 import 'sign_up.dart';
-// import 'pick_colour_tabs/sliders_color_picker.dart';
 
-class PickColorScreen extends StatefulWidget {
+class PickColorScreen extends ConsumerWidget {
   const PickColorScreen({super.key});
 
   @override
-  State<PickColorScreen> createState() => _PickColorScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
+    final colorNotifier = ref.read(colorProvider.notifier);
 
-class _PickColorScreenState extends State<PickColorScreen> {
-  Color currentColor = Colors.blue; // Default color
-
-  void changeColor(Color color) {
-    setState(() => currentColor = color);
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        backgroundColor: currentColor,
+        backgroundColor: colorState.baseColor,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -37,11 +28,11 @@ class _PickColorScreenState extends State<PickColorScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const Text(
+                      Text(
                         'Select colors for App',
                         style: TextStyle(
                           fontSize: 26,
-                          color: Color.fromRGBO(243, 156, 18, 3),
+                          color: colorState.generatedColors[2],
                         ),
                       ),
                       CustomButton(
@@ -70,7 +61,7 @@ class _PickColorScreenState extends State<PickColorScreen> {
                     const SizedBox(width: 12),
                     CircleAvatar(
                       radius: 20,
-                      backgroundColor: currentColor,
+                      backgroundColor: colorState.baseColor,
                     ),
                   ],
                 ),
@@ -134,16 +125,22 @@ class _PickColorScreenState extends State<PickColorScreen> {
                   child: TabBarView(
                     children: [
                       GridColorPicker(
-                        currentColor: currentColor,
-                        onColorChanged: changeColor,
+                        currentColor: colorState.baseColor,
+                        onColorChanged: (color) {
+                          colorNotifier.setBaseColor(color);
+                        },
                       ),
                       SpectrumColorPicker(
-                        currentColor: currentColor,
-                        onColorChanged: changeColor,
+                        currentColor: colorState.baseColor,
+                        onColorChanged: (color) {
+                          colorNotifier.setBaseColor(color);
+                        },
                       ),
                       SlidersColorPicker(
-                        currentColor: currentColor,
-                        onColorChanged: changeColor,
+                        currentColor: colorState.baseColor,
+                        onColorChanged: (color) {
+                          colorNotifier.setBaseColor(color);
+                        },
                       ),
                     ],
                   ),

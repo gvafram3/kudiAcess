@@ -1,11 +1,114 @@
 import 'package:flutter/material.dart';
-// import 'package:kudiaccess/screens/dashboard.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseStorage _storage = FirebaseStorage.instance;
+  final ImagePicker _picker = ImagePicker();
+
+  late TextEditingController nameController;
+  late TextEditingController emailController;
+  late TextEditingController phoneController;
+  late TextEditingController dobController;
+  late TextEditingController regionController;
+  late TextEditingController passwordController;
+
+  String profileImageUrl = '';
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+    dobController = TextEditingController(text: '');
+    regionController = TextEditingController(text: 'region');
+    passwordController = TextEditingController(text: '**************');
+    profileImageUrl = '';
+  }
+
+  Future<void> fetchUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user.uid).get();
+
+      setState(() {
+        nameController = TextEditingController(text: userDoc['username']);
+        emailController = TextEditingController(text: user.email);
+        phoneController = TextEditingController(text: userDoc['phoneNumber']);
+
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> updateUserData() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      await _firestore.collection('users').doc(user.uid).update({
+        'username': nameController.text,
+        'phone': phoneController.text,
+        'dob': dobController.text,
+        'region': regionController.text,
+      });
+
+      if (emailController.text != user.email) {
+        // ignore: deprecated_member_use
+        await user.updateEmail(emailController.text);
+      }
+    }
+  }
+
+  Future<void> uploadProfileImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      File imageFile = File(pickedFile.path);
+
+      User? user = _auth.currentUser;
+      if (user != null) {
+        TaskSnapshot uploadTask = await _storage
+            .ref('profile_pictures/${user.uid}')
+            .putFile(imageFile);
+        String downloadUrl = await uploadTask.ref.getDownloadURL();
+
+        await _firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection("otherData")
+            .doc("profile")
+            .set({
+          'profileImageUrl': downloadUrl,
+        });
+
+        setState(() {
+          profileImageUrl = downloadUrl;
+        });
+      }
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       body: SafeArea(
@@ -26,7 +129,6 @@ class ProfileScreen extends StatelessWidget {
                         color: Color.fromRGBO(243, 156, 18, 3),
                       ),
                     ),
-                    // const SizedBox(width: 10),
                     const Text(
                       'Edit Profile',
                       style: TextStyle(
@@ -40,21 +142,25 @@ class ProfileScreen extends StatelessWidget {
                 Center(
                   child: Stack(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 60,
                         backgroundColor: Colors.grey,
-                        child: Icon(
-                          Icons.person_2_rounded,
-                          color: Color.fromRGBO(255, 255, 255, 1),
-                          size: 82,
-                        ),
-                        // backgroundImage:  AssetImage('assets/default_avatar.png'),
+                        backgroundImage: profileImageUrl.isNotEmpty
+                            ? NetworkImage(profileImageUrl)
+                            : null,
+                        child: profileImageUrl.isEmpty
+                            ? const Icon(
+                                Icons.person_2_rounded,
+                                color: Colors.white,
+                                size: 82,
+                              )
+                            : null,
                       ),
                       Positioned(
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: () {},
+                          onTap: uploadProfileImage,
                           child: Container(
                             height: 40,
                             width: 40,
@@ -78,46 +184,66 @@ class ProfileScreen extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: 'Mellisa Peters'),
+                CustomTextField(
+                  controller: nameController,
+                  hint: 'Mellisa Peters',
+                ),
                 const SizedBox(height: 28),
                 const Text(
                   'Email',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: 'melpeters@gmail.com'),
+                CustomTextField(
+                  controller: emailController,
+                  hint: 'melpeters@gmail.com',
+                ),
                 const SizedBox(height: 28),
                 const Text(
                   'Phone Number',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: '+233 098 7766'),
+                CustomTextField(
+                  controller: phoneController,
+                  hint: '+233 098 7766',
+                ),
                 const SizedBox(height: 28),
                 const Text(
                   'Password',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: '**************'),
+                CustomTextField(
+                  controller: passwordController,
+                  hint: '**************',
+                  readOnly: true,
+                ),
                 const SizedBox(height: 28),
                 const Text(
                   'Date of Birth',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: '23/05/1995'),
+                CustomTextField(
+                  controller: dobController,
+                  hint: '23/05/1995',
+                ),
                 const SizedBox(height: 28),
                 const Text(
                   'Region',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(hint: 'Greater Accra'),
+                CustomTextField(
+                  controller: regionController,
+                  hint: 'Greater Accra',
+                ),
                 const SizedBox(height: 28),
                 Center(
                   child: ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      await updateUserData();
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
@@ -146,16 +272,22 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
   final String hint;
+  final bool readOnly;
 
   const CustomTextField({
     super.key,
+    required this.controller,
     required this.hint,
+    this.readOnly = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      readOnly: readOnly,
       decoration: InputDecoration(
         hintText: hint,
         border: OutlineInputBorder(

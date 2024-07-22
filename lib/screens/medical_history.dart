@@ -1,5 +1,8 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:kudiaccess/screens/triggers_page.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
@@ -13,13 +16,7 @@ class MedicalHistory extends StatefulWidget {
 }
 
 class _MedicalHistoryState extends State<MedicalHistory> {
-  var items = [
-    'Item 1',
-    'Item 2',
-    'Item 3',
-    'Item 4',
-    'Item 5',
-  ];
+  var items = ['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'];
   String dropdownvalue = 'Item 1';
   bool isSaved = false;
   final TextEditingController _controller = TextEditingController();
@@ -29,7 +26,8 @@ class _MedicalHistoryState extends State<MedicalHistory> {
   bool _isDropdownOpened = false;
   String? _selectedItem;
   final List<String> _items = ['Item 1', 'Item 2', 'Item 3'];
-  final TextEditingController otherCondtionController = TextEditingController();
+  final TextEditingController otherConditionController =
+      TextEditingController();
   final TextEditingController _medicalConditionController =
       TextEditingController();
   final TextEditingController _medicationsController = TextEditingController();
@@ -37,6 +35,7 @@ class _MedicalHistoryState extends State<MedicalHistory> {
   final TextEditingController _physicianNameController =
       TextEditingController();
   String? _uploadedFilePath;
+  String? _uploadedFileUrl;
 
   @override
   void dispose() {
@@ -59,6 +58,23 @@ class _MedicalHistoryState extends State<MedicalHistory> {
     }
   }
 
+  Future<void> _uploadFile() async {
+    if (_uploadedFilePath != null) {
+      File file = File(_uploadedFilePath!);
+      try {
+        TaskSnapshot snapshot = await FirebaseStorage.instance
+            .ref('uploads/${file.absolute}')
+            .putFile(file);
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        setState(() {
+          _uploadedFileUrl = downloadUrl;
+        });
+      } catch (e) {
+        print('Error uploading file: $e');
+      }
+    }
+  }
+
   Future<void> _saveData() async {
     if (_allergiesController.text.isNotEmpty &&
         _physicianNameController.text.isNotEmpty &&
@@ -69,19 +85,26 @@ class _MedicalHistoryState extends State<MedicalHistory> {
         });
       } else {
         setState(() {
-          medicalCondition = otherCondtionController.text;
+          medicalCondition = otherConditionController.text;
         });
       }
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('medicalCondition', medicalCondition);
-      await prefs.setString('medications', _medicationsController.text);
-      await prefs.setString('allergies', _allergiesController.text);
-      await prefs.setString('physicianName', _physicianNameController.text);
-      if (_uploadedFilePath != null) {
-        await prefs.setString('uploadedFilePath', _uploadedFilePath!);
-      }
 
-      // ignore: use_build_context_synchronously
+      await _uploadFile();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+
+      // Create a map with all the data
+      Map<String, String> data = {
+        'medicalCondition': medicalCondition,
+        'medications': _medicationsController.text,
+        'allergies': _allergiesController.text,
+        'physicianName': _physicianNameController.text,
+        'uploadedFilePath': _uploadedFileUrl ?? '',
+      };
+
+      // Convert map to JSON string and save
+      await prefs.setString('medicalData', jsonEncode(data));
+
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Data saved successfully')));
       setState(() {
@@ -91,21 +114,26 @@ class _MedicalHistoryState extends State<MedicalHistory> {
       setState(() {
         isSaved = false;
       });
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('Please fill all field')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Please fill all fields')));
     }
   }
 
   Future<void> _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _medicalConditionController.text =
-          prefs.getString('medicalCondition') ?? '';
-      _medicationsController.text = prefs.getString('medications') ?? '';
-      _allergiesController.text = prefs.getString('allergies') ?? '';
-      _physicianNameController.text = prefs.getString('physicianName') ?? '';
-      _uploadedFilePath = prefs.getString('uploadedFilePath');
-    });
+    String? dataString = prefs.getString('medicalData');
+
+    if (dataString != null) {
+      Map<String, dynamic> data = jsonDecode(dataString);
+
+      setState(() {
+        _medicalConditionController.text = data['medicalCondition'] ?? '';
+        _medicationsController.text = data['medications'] ?? '';
+        _allergiesController.text = data['allergies'] ?? '';
+        _physicianNameController.text = data['physicianName'] ?? '';
+        _uploadedFileUrl = data['uploadedFilePath'] ?? '';
+      });
+    }
   }
 
   @override
@@ -162,11 +190,11 @@ class _MedicalHistoryState extends State<MedicalHistory> {
 
   final _currencies = [
     "Autism Spectrum Disorder",
-    "Sensory",
-    "Processing Disorder",
+    "Sensory Processing Disorder",
     "ADHD",
     "Other",
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -244,7 +272,7 @@ class _MedicalHistoryState extends State<MedicalHistory> {
                   ),
                   TextFormField(
                     onChanged: (value) {},
-                    controller: otherCondtionController,
+                    controller: otherConditionController,
                     decoration: InputDecoration(
                         hintText: " ",
                         contentPadding: const EdgeInsets.all(5),
