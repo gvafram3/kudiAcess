@@ -53,10 +53,11 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCvaRsoRseMpAhRjjmIKM4ePxWRyqGE9Yk',
-    appId: '1:59076233564:android:0f646521db0dd044f09999',
-    messagingSenderId: '59076233564',
-    projectId: 'kudiaccess-ceb19',
-    storageBucket: 'kudiaccess-ceb19.appspot.com',
+    apiKey: 'AIzaSyDFxiAKqN-Of1w0EX0QiYcpgp3LcFgaIyg',
+    appId: '1:826871695457:android:3fb4c6917ca79474d7c220',
+    messagingSenderId: '826871695457',
+    projectId: 'kudiaccess',
+    storageBucket: 'kudiaccess.appspot.com',
   );
+
 }
