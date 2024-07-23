@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kudiaccess/screens/logout.dart';
+import 'package:kudiaccess/screens/profile.dart';
 // import 'package:kudiaccess/screens/dashboard.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -51,7 +52,12 @@ class SettingsScreen extends StatelessWidget {
                       CustomListTile(
                         icon: Icons.person_2_outlined,
                         title: 'Edit Profile',
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const ProfileScreen()));
+                        },
                       ),
                       const Divider(color: Colors.grey),
                       CustomListTile(
