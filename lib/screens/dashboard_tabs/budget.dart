@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'package:fl_chart/fl_chart.dart';
+import '../../providers/color_providers.dart';
 import '../../widgets/chart.dart';
 import '../notifications.dart';
 import '../profile.dart';
 import '../settings.dart';
 
-class BudgetScreen extends StatelessWidget {
+class BudgetScreen extends ConsumerWidget {
   const BudgetScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
+
+    return Scaffold(
+      backgroundColor: colorState.baseColor,
+      body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(

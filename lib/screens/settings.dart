@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/screens/logout.dart';
 import 'package:kudiaccess/screens/profile.dart';
-// import 'package:kudiaccess/screens/dashboard.dart';
 
-class SettingsScreen extends StatelessWidget {
+import '../providers/color_providers.dart';
+
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
+
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

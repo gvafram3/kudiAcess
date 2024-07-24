@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/screens/add_debit_card_page.dart';
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 
-class SetupPage extends StatelessWidget {
+import '../providers/color_providers.dart';
+
+class SetupPage extends ConsumerWidget {
   const SetupPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
+
     return Scaffold(
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
