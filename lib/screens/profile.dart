@@ -36,9 +36,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     super.initState();
     dobController = TextEditingController(text: '');
     regionController = TextEditingController(text: 'region');
+
     passwordController = TextEditingController(text: '***********');
-    profileImageUrl = '';
+
     fetchUserData();
+
   }
 
   Future<void> fetchUserData() async {
@@ -62,6 +64,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 ? profileDoc['profileImageUrl']
                 : '';
         isLoading = false;
+      });
+
+      DocumentSnapshot pro = await _firestore
+          .collection("users")
+          .doc(user.uid)
+          .collection("otherData")
+          .doc("profile")
+          .get();
+      setState(() {
+        profileImageUrl = pro["profileImageUrl"] ?? "";
       });
     }
   }

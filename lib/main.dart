@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/firebase_options.dart';
 import 'package:kudiaccess/screens/dashboard.dart';
+import 'package:kudiaccess/screens/dashboard_tabs/home.dart';
 import 'package:kudiaccess/screens/forgot_password.dart';
 import 'package:kudiaccess/screens/otp_page.dart';
 import 'package:kudiaccess/screens/splashscreen.dart';
@@ -27,9 +28,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const 
-      SplashScreen(),
-      // Dashboard(),
+
+      home: const DashboardPage(),
+
     );
   }
 }

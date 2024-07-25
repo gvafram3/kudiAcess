@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +19,13 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   UserModel? user;
+
   bool savingGoalEnabled = false;
   String savingGoal = '';
+
+
+  String profileImageUrl = "";
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> loadUser() async {
     final loadedUser = await ref.read(userProvider.notifier).loadUser();
@@ -28,6 +34,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
     if (user != null) {
       print(user!.email);
+      DocumentSnapshot pro = await _firestore
+          .collection("users")
+          .doc(user!.uid)
+          .collection("otherData")
+          .doc("profile")
+          .get();
+      setState(() {
+        profileImageUrl = pro["profileImageUrl"] ?? "";
+      });
     }
   }
 
@@ -146,12 +161,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 );
               },
-              child: const CircleAvatar(
+              child: CircleAvatar(
+                radius: profileImageUrl.isNotEmpty ? 18 : 20,
                 backgroundColor: Colors.white54,
-                child: Icon(
-                  Icons.person_2_outlined,
-                  color: Colors.black,
-                ),
+                backgroundImage: profileImageUrl.isNotEmpty
+                    ? NetworkImage(profileImageUrl)
+                    : null,
+                child: profileImageUrl.isNotEmpty
+                    ? null
+                    : const Icon(
+                        Icons.person_2_outlined,
+                        color: Colors.black,
+                      ),
               ),
             ),
           ],

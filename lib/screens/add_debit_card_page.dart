@@ -136,12 +136,8 @@ class _AddDebitCardInfoPageState extends ConsumerState<AddDebitCardInfoPage> {
                 ),
                 const SizedBox(height: 14),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Click here to add new card details',
-                      style: TextStyle(color: Colors.lightGreen),
-                    ),
                     CustomButton(
                       onPressed: saveCardDetails,
                       txt: "Save",
