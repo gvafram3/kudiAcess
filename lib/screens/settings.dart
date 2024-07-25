@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kudiaccess/screens/logout.dart';
+import 'package:kudiaccess/screens/profile.dart';
 // import 'package:kudiaccess/screens/dashboard.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -47,19 +48,25 @@ class SettingsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Colors.grey),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
-                      CustomListTile(
-                        icon: Icons.person_2_outlined,
-                        title: 'Edit Profile',
+                      GestureDetector(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const ProfileScreen())),
+                        child: const CustomListTile(
+                          icon: Icons.person_2_outlined,
+                          title: 'Edit Profile',
+                        ),
                       ),
-                      Divider(color: Colors.grey),
-                      CustomListTile(
+                      const Divider(color: Colors.grey),
+                      const CustomListTile(
                         icon: Icons.security_rounded,
                         title: 'Security',
                       ),
-                      Divider(color: Colors.grey),
-                      CustomListTile(
+                      const Divider(color: Colors.grey),
+                      const CustomListTile(
                         icon: Icons.lock,
                         title: 'Privacy',
                       ),

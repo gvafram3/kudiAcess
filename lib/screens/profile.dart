@@ -35,7 +35,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     dobController = TextEditingController(text: '');
     regionController = TextEditingController(text: 'region');
     passwordController = TextEditingController(text: '**************');
-    profileImageUrl = '';
   }
 
   Future<void> fetchUserData() async {
@@ -50,6 +49,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
         phoneController = TextEditingController(text: userDoc['phoneNumber']);
 
         isLoading = false;
+      });
+
+      DocumentSnapshot pro = await _firestore
+          .collection("users")
+          .doc(user.uid)
+          .collection("otherData")
+          .doc("profile")
+          .get();
+      setState(() {
+        profileImageUrl = pro["profileImageUrl"] ?? "";
       });
     }
   }
