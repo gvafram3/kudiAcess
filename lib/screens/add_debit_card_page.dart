@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:kudiaccess/utils/commons/custom_button.dart';
 import 'package:kudiaccess/widgets/gradient_background.dart';
 
+import '../providers/color_providers.dart';
 import 'add_mobile_money_info.dart';
 
-class AddDebitCardInfoPage extends StatefulWidget {
+class AddDebitCardInfoPage extends ConsumerStatefulWidget {
   const AddDebitCardInfoPage({super.key});
   @override
-  State<AddDebitCardInfoPage> createState() => _AddDebitCardInfoPageState();
+  ConsumerState<AddDebitCardInfoPage> createState() =>
+      _AddDebitCardInfoPageState();
 }
 
-class _AddDebitCardInfoPageState extends State<AddDebitCardInfoPage> {
+class _AddDebitCardInfoPageState extends ConsumerState<AddDebitCardInfoPage> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController cardholderNameController =
@@ -64,7 +67,9 @@ class _AddDebitCardInfoPageState extends State<AddDebitCardInfoPage> {
 
   @override
   Widget build(BuildContext context) {
+    final colorState = ref.watch(colorProvider);
     return Scaffold(
+      backgroundColor: colorState.baseColor,
       body: GradientBackground(
         mainContent: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -184,7 +189,7 @@ class _AddDebitCardInfoPageState extends State<AddDebitCardInfoPage> {
   }
 }
 
-class CustomTextField2 extends StatefulWidget {
+class CustomTextField2 extends ConsumerStatefulWidget {
   const CustomTextField2(
       {super.key,
       required this.controller,
@@ -195,10 +200,10 @@ class CustomTextField2 extends StatefulWidget {
   final String hint;
 
   @override
-  State<CustomTextField2> createState() => _CustomTextField2State();
+  ConsumerState<CustomTextField2> createState() => _CustomTextField2State();
 }
 
-class _CustomTextField2State extends State<CustomTextField2> {
+class _CustomTextField2State extends ConsumerState<CustomTextField2> {
   bool isHidden = false;
   @override
   Widget build(BuildContext context) {

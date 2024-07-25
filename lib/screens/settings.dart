@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/screens/logout.dart';
 import 'package:kudiaccess/screens/profile.dart';
-// import 'package:kudiaccess/screens/dashboard.dart';
 
-class SettingsScreen extends StatelessWidget {
+
+import '../providers/color_providers.dart';
+
+class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
+
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -28,7 +33,6 @@ class SettingsScreen extends StatelessWidget {
                         color: Color.fromRGBO(243, 156, 18, 3),
                       ),
                     ),
-                    // const SizedBox(width: 10),
                     const Text(
                       'Settings',
                       style: TextStyle(
@@ -50,6 +54,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
+
                       GestureDetector(
                         onTap: () => Navigator.push(
                             context,
@@ -62,13 +67,18 @@ class SettingsScreen extends StatelessWidget {
                       ),
                       const Divider(color: Colors.grey),
                       const CustomListTile(
+
                         icon: Icons.security_rounded,
                         title: 'Security',
+                        onTap: () {},
                       ),
                       const Divider(color: Colors.grey),
+
                       const CustomListTile(
+
                         icon: Icons.lock,
                         title: 'Privacy',
+                        onTap: () {},
                       ),
                     ],
                   ),
@@ -83,16 +93,18 @@ class SettingsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(color: Colors.grey),
                   ),
-                  child: const Column(
+                  child: Column(
                     children: [
                       CustomListTile(
                         icon: Icons.help_outline_rounded,
                         title: 'Help & Support',
+                        onTap: () {},
                       ),
-                      Divider(color: Colors.grey),
+                      const Divider(color: Colors.grey),
                       CustomListTile(
                         icon: Icons.wallet,
                         title: 'Terms and Conditions',
+                        onTap: () {},
                       ),
                     ],
                   ),
@@ -109,14 +121,15 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const CustomListTile(
+                      CustomListTile(
                         icon: Icons.flag_outlined,
                         title: 'Report a problem',
+                        onTap: () {},
                       ),
                       const Divider(color: Colors.grey),
                       CustomListTile(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const LogoutScreen()));
@@ -145,7 +158,7 @@ class CustomListTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.title,
-    this.onTap,
+    required this.onTap,
   });
 
   @override
@@ -168,6 +181,7 @@ class CustomListTile extends StatelessWidget {
       title: Text(
         title,
       ),
+      onTap: onTap,
     );
   }
 }

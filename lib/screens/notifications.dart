@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers/color_providers.dart';
 // import 'package:kudiaccess/screens/dashboard.dart';
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colorState = ref.watch(colorProvider);
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

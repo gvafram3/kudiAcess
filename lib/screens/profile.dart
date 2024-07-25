@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
-class ProfileScreen extends StatefulWidget {
+import '../providers/color_providers.dart';
+
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseStorage _storage = FirebaseStorage.instance;
@@ -31,10 +34,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    fetchUserData();
     dobController = TextEditingController(text: '');
     regionController = TextEditingController(text: 'region');
-    passwordController = TextEditingController(text: '**************');
+
+    passwordController = TextEditingController(text: '***********');
+
+    fetchUserData();
+
   }
 
   Future<void> fetchUserData() async {
@@ -42,12 +48,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (user != null) {
       DocumentSnapshot userDoc =
           await _firestore.collection('users').doc(user.uid).get();
+      DocumentSnapshot profileDoc = await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection("otherData")
+          .doc("profile")
+          .get();
 
       setState(() {
         nameController = TextEditingController(text: userDoc['username']);
         emailController = TextEditingController(text: user.email);
-        phoneController = TextEditingController(text: userDoc['phoneNumber']);
-
+        phoneController = TextEditingController(text: userDoc['phone']);
+        profileImageUrl =
+            profileDoc.exists && profileDoc['profileImageUrl'] != null
+                ? profileDoc['profileImageUrl']
+                : '';
         isLoading = false;
       });
 
@@ -74,7 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
 
       if (emailController.text != user.email) {
-        // ignore: deprecated_member_use
         await user.updateEmail(emailController.text);
       }
     }
@@ -118,8 +132,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       );
     }
 
+    final colorState = ref.watch(colorProvider);
+
     return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(

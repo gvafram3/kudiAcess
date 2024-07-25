@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/screens/login.dart';
+import 'package:kudiaccess/utils/commons/authmethods.dart';
 
 import '../utils/commons/custom_button.dart';
 
-class LogoutScreen extends StatelessWidget {
+class LogoutScreen extends ConsumerStatefulWidget {
   const LogoutScreen({super.key});
+
+  @override
+  ConsumerState<LogoutScreen> createState() => LogoutScreenState();
+}
+
+class LogoutScreenState extends ConsumerState<LogoutScreen> {
+  void signOut() async {
+    ref.read(authMethodProvider).signOut(context: context);
+  }
 
   @override
   Widget build(BuildContext context) {

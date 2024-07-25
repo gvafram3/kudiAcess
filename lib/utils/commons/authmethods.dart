@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kudiaccess/screens/login.dart';
 import 'package:kudiaccess/utils/commons/commons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -136,6 +137,8 @@ class AuthMethods {
   signOut({required BuildContext context}) async {
     try {
       await FirebaseAuth.instance.signOut();
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const LoginPage()));
     } catch (err) {
       showSnackBar(context, err.toString());
     }
