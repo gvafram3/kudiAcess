@@ -78,7 +78,7 @@ class _ColorTriggerPageState extends State<ColorTriggerPage> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: const Text(
-          "Enter your triggers colors here",
+          "Enter preferred colours here",
           style: TextStyle(color: Color.fromRGBO(243, 156, 18, 3)),
         ),
       ),
@@ -92,7 +92,7 @@ class _ColorTriggerPageState extends State<ColorTriggerPage> {
                 height: 10,
               ),
               const Text(
-                "Color 1",
+                "Colour 1",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -111,7 +111,7 @@ class _ColorTriggerPageState extends State<ColorTriggerPage> {
                 height: 10,
               ),
               const Text(
-                "Color 2",
+                "Colour 2",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
@@ -130,7 +130,7 @@ class _ColorTriggerPageState extends State<ColorTriggerPage> {
                 height: 10,
               ),
               const Text(
-                "Color 3",
+                "Colour 3",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               const SizedBox(
