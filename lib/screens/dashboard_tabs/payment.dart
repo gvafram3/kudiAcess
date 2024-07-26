@@ -18,15 +18,16 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<String> _selectBillsValues = [
     'Select a bill',
-    'Option 1',
-    'Option 2',
-    'Option 3'
+    'Electricity Bill',
+    'Internet Recharge',
+    'Cable Bill',
+    'Mobile Recharge',
+    'OTT Bill',
   ];
   final List<String> _paymentMethodValues = [
     'Select payment',
-    'Option 1',
-    'Option 2',
-    'Option 3'
+    'Visa Card',
+    'Mobile Money',
   ];
   String? _selectedValue;
 
