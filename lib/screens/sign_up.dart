@@ -195,11 +195,11 @@ class _SignUpPageState extends ConsumerState<SignUpPage> {
                     child: Container(
                       height: 60,
                       width: 60,
-                      color: Colors.green,
+                      color: Colors.green.withOpacity(0.4),
                       child: const Center(child: CircularProgressIndicator()),
                     ),
                   ),
-                )
+                ),
             ],
           ),
         ),
