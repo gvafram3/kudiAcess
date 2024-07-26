@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:kudiaccess/screens/logout.dart';
 import 'package:kudiaccess/screens/profile.dart';
 
-
 import '../providers/color_providers.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -54,28 +53,25 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-
                       GestureDetector(
                         onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => const ProfileScreen())),
-                        child: const CustomListTile(
+                        child: CustomListTile(
+                          onTap: () {},
                           icon: Icons.person_2_outlined,
                           title: 'Edit Profile',
                         ),
                       ),
                       const Divider(color: Colors.grey),
-                      const CustomListTile(
-
+                      CustomListTile(
                         icon: Icons.security_rounded,
                         title: 'Security',
                         onTap: () {},
                       ),
                       const Divider(color: Colors.grey),
-
-                      const CustomListTile(
-
+                      CustomListTile(
                         icon: Icons.lock,
                         title: 'Privacy',
                         onTap: () {},

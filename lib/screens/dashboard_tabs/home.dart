@@ -8,8 +8,6 @@ import 'package:kudiaccess/screens/notifications.dart';
 import 'package:kudiaccess/screens/profile.dart';
 import 'package:kudiaccess/screens/settings.dart';
 
-import '../../providers/color_providers.dart';
-
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -22,7 +20,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   bool savingGoalEnabled = false;
   String savingGoal = '';
-
 
   String profileImageUrl = "";
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

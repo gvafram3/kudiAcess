@@ -47,15 +47,6 @@ class BuildHeader extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.chevron_left_rounded,
-            color: Color.fromRGBO(243, 156, 18, 3),
-          ),
-        ),
         const SizedBox(width: 10),
         const Text(
           'Budget & Goals',

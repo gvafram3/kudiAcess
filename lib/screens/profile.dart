@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,7 +31,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late TextEditingController passwordController;
 
   String profileImageUrl = '';
-  bool isLoading = true;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -40,29 +42,22 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     passwordController = TextEditingController(text: '***********');
 
     fetchUserData();
-
   }
 
   Future<void> fetchUserData() async {
+    setState(() {
+      isLoading = true;
+    });
     User? user = _auth.currentUser;
     if (user != null) {
       DocumentSnapshot userDoc =
           await _firestore.collection('users').doc(user.uid).get();
-      DocumentSnapshot profileDoc = await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection("otherData")
-          .doc("profile")
-          .get();
 
       setState(() {
         nameController = TextEditingController(text: userDoc['username']);
         emailController = TextEditingController(text: user.email);
-        phoneController = TextEditingController(text: userDoc['phone']);
-        profileImageUrl =
-            profileDoc.exists && profileDoc['profileImageUrl'] != null
-                ? profileDoc['profileImageUrl']
-                : '';
+        phoneController = TextEditingController(text: userDoc['phoneNumber']);
+
         isLoading = false;
       });
 
@@ -124,174 +119,168 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
     final colorState = ref.watch(colorProvider);
 
     return Scaffold(
       backgroundColor: colorState.baseColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(
-                        Icons.chevron_left_rounded,
-                        color: Color.fromRGBO(243, 156, 18, 3),
-                      ),
-                    ),
-                    const Text(
-                      'Edit Profile',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color.fromRGBO(243, 156, 18, 3),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 28),
-                Center(
-                  child: Stack(
+      body: isLoading
+          ? const SafeArea(child: Center(child: CircularProgressIndicator()))
+          : SafeArea(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 60,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: profileImageUrl.isNotEmpty
-                            ? NetworkImage(profileImageUrl)
-                            : null,
-                        child: profileImageUrl.isEmpty
-                            ? const Icon(
-                                Icons.person_2_rounded,
-                                color: Colors.white,
-                                size: 82,
-                              )
-                            : null,
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              Icons.chevron_left_rounded,
+                              color: Color.fromRGBO(243, 156, 18, 3),
+                            ),
+                          ),
+                          const Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color.fromRGBO(243, 156, 18, 3),
+                            ),
+                          ),
+                        ],
                       ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: uploadProfileImage,
-                          child: Container(
-                            height: 40,
-                            width: 40,
-                            decoration: const BoxDecoration(
-                              color: Colors.blue,
-                              shape: BoxShape.circle,
+                      const SizedBox(height: 28),
+                      Center(
+                        child: Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.grey,
+                              backgroundImage: profileImageUrl.isNotEmpty
+                                  ? NetworkImage(profileImageUrl)
+                                  : null,
+                              child: profileImageUrl.isEmpty
+                                  ? const Icon(
+                                      Icons.person_2_rounded,
+                                      color: Colors.white,
+                                      size: 82,
+                                    )
+                                  : null,
                             ),
-                            child: const Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: InkWell(
+                                onTap: uploadProfileImage,
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.blue,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Name',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: nameController,
+                        hint: 'Mellisa Peters',
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Email',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: emailController,
+                        hint: 'melpeters@gmail.com',
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Phone Number',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: phoneController,
+                        hint: '+233 098 7766',
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Password',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: passwordController,
+                        hint: '**************',
+                        readOnly: true,
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Date of Birth',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: dobController,
+                        hint: '23/05/1995',
+                      ),
+                      const SizedBox(height: 28),
+                      const Text(
+                        'Region',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomTextField(
+                        controller: regionController,
+                        hint: 'Greater Accra',
+                      ),
+                      const SizedBox(height: 28),
+                      Center(
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await updateUserData();
+                            Navigator.pop(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue, // Background color
+                            foregroundColor: Colors.white, // Text color
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  12), // Custom border radius
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 34, vertical: 22), // Custom padding
+                          ),
+                          child: const Text(
+                            'Save Changes',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Name',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: nameController,
-                  hint: 'Mellisa Peters',
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Email',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: emailController,
-                  hint: 'melpeters@gmail.com',
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Phone Number',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: phoneController,
-                  hint: '+233 098 7766',
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Password',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: passwordController,
-                  hint: '**************',
-                  readOnly: true,
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Date of Birth',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: dobController,
-                  hint: '23/05/1995',
-                ),
-                const SizedBox(height: 28),
-                const Text(
-                  'Region',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: regionController,
-                  hint: 'Greater Accra',
-                ),
-                const SizedBox(height: 28),
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await updateUserData();
-                      Navigator.pop(context);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue, // Background color
-                      foregroundColor: Colors.white, // Text color
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(12), // Custom border radius
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 34, vertical: 22), // Custom padding
-                    ),
-                    child: const Text(
-                      'Save Changes',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
