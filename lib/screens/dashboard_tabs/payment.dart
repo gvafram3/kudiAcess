@@ -15,6 +15,7 @@ class PaymentsScreen extends StatefulWidget {
 }
 
 class _PaymentsScreenState extends State<PaymentsScreen> {
+  final TextEditingController _payBillController = TextEditingController();
   final TextEditingController _controller = TextEditingController();
   final List<String> _selectBillsValues = [
     'Select a bill',
@@ -82,7 +83,8 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
             ),
             const SizedBox(height: 20),
             TextField(
-              controller: _controller,
+              keyboardType: TextInputType.number,
+              controller: _payBillController,
               decoration: InputDecoration(
                 hintText: 'Enter amount',
                 border: OutlineInputBorder(
@@ -93,7 +95,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
             const SizedBox(height: 20),
             CustomDropdownTextField(
               dropdownValues: _paymentMethodValues,
-              hintText: 'Select payment',
+              hintText: 'Select payment method',
             ),
             const SizedBox(height: 20),
             Row(
@@ -101,7 +103,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue, // Background color
