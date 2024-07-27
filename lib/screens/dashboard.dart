@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:kudiaccess/providers/color_providers.dart';
 import 'package:kudiaccess/screens/dashboard_tabs/budget.dart';
+import 'package:kudiaccess/screens/dashboard_tabs/chat.dart';
 import 'package:kudiaccess/screens/dashboard_tabs/history.dart';
 import 'package:kudiaccess/screens/dashboard_tabs/payment.dart';
 import 'package:kudiaccess/screens/dashboard_tabs/resources.dart';
@@ -10,14 +13,14 @@ import 'package:kudiaccess/utils/commons/speech_to_txt.dart';
 import 'dart:math' as math;
 import 'dashboard_tabs/home.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardPage extends ConsumerStatefulWidget {
   const DashboardPage({super.key});
 
   @override
-  DashboardPageState createState() => DashboardPageState();
+  ConsumerState<DashboardPage> createState() => _DashboardPageState();
 }
 
-class DashboardPageState extends State<DashboardPage>
+class _DashboardPageState extends ConsumerState<DashboardPage>
     with SingleTickerProviderStateMixin {
   final SpeechService _speechService = SpeechService();
   final TextToSpeechService _ttsService = TextToSpeechService();
@@ -121,12 +124,14 @@ class DashboardPageState extends State<DashboardPage>
     const PaymentsScreen(),
     const BudgetScreen(),
     const ResourcesScreen(),
+    const ChatScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final colorState = ref.watch(colorProvider);
     return Scaffold(
-      backgroundColor: Colors.blue[50],
+      backgroundColor: colorState.baseColor,
       body: SafeArea(
         child: _screens[currentIndex],
       ),
@@ -162,19 +167,27 @@ class DashboardPageState extends State<DashboardPage>
             icon: Icon(Icons.book),
             label: 'Resources',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.chat),
+            label: 'chat',
+          ),
         ],
       ),
-      floatingActionButton: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) => FloatingActionButton(
-          onPressed:
-              _speechService.isListening ? _stopListening : _startListening,
-          child: Transform.rotate(
-              angle: _animationController.value * 2 * math.pi,
-              child:
-                  Icon(_speechService.isListening ? Icons.mic : Icons.mic_off)),
-        ),
-      ),
+      floatingActionButton: currentIndex != 5
+          ? AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) => FloatingActionButton(
+                onPressed: _speechService.isListening
+                    ? _stopListening
+                    : _startListening,
+                child: Transform.rotate(
+                    angle: _animationController.value * 2 * math.pi,
+                    child: Icon(_speechService.isListening
+                        ? Icons.mic
+                        : Icons.mic_off)),
+              ),
+            )
+          : null,
     );
   }
 }
