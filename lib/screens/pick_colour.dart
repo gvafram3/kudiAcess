@@ -29,7 +29,7 @@ class PickColorScreen extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        'Select colors for App',
+                        'Select colours for App',
                         style: TextStyle(
                           fontSize: 26,
                           color: colorState.generatedColors[2],
